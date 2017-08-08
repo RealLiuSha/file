@@ -3,6 +3,7 @@ package file
 import (
 	"os"
 	"path"
+	"io/ioutil"
 )
 
 func WriteBytes(filePath string, b []byte) (int, error) {
@@ -17,4 +18,13 @@ func WriteBytes(filePath string, b []byte) (int, error) {
 
 func WriteString(filePath string, s string) (int, error) {
 	return WriteBytes(filePath, []byte(s))
+}
+
+func WriteFile(filePath string, data []byte, perm os.FileMode) error {
+	if perm == 0 { perm = os.ModePerm }
+	if err := ioutil.WriteFile(filePath, data, perm); err != nil {
+		return err
+	}
+
+	return nil
 }
